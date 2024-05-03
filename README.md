@@ -1,5 +1,6 @@
 # Ursina-Steam-Integration
-"Integrates" Steam with Ursina Engine for python
+"Integrates" Steam with Ursina Engine for python  
+THIS IS NOT SUPPORTED BY VALVE
 
 Basic usage:
 ```py
