@@ -31,6 +31,6 @@ with open("data/languages/"+WinCountry+".json", encoding="utf8") as lang:
 print("loaded language")
 
 avatardir=SteamPath+rf"\config\avatarcache\{steamID}.png"
-shutil.copy(avatardir, "data/user")
+shutil.copy(avatardir, "path where you want the avatar")
 assert avatardir, "No avatar found"
 print("copied avatar from cache")
