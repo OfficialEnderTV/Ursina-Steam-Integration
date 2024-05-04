@@ -31,8 +31,18 @@ from steammanager import PersonaName
 Imports users Username
   
 Other functions:  
--Saves Avatar automatically to directory you choose  
--Supports language settings, usage:  
+-Saves Avatar automatically to directory you choose. how can you set the avatar as texture? its simple:  
+```py
+from steamdata import steamID
+from ursina import *
+
+app=Ursina()
+
+Button(model="quad", texture=f"dir where you store the avatar/{steamID}.png")
+
+app.run()
+```  
+-Supports language settings. usage:  
 line 29-30  
 ```py
 with open("your path to lang files\"+WinCountry+".json", encoding="utf8") as lang:
