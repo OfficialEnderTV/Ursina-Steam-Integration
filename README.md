@@ -2,6 +2,7 @@
 "Integrates" Steam with Ursina Engine for python  
 THIS IS NOT SUPPORTED BY VALVE
   
+steammanager should be imported first in order to work 
 Basic usage:
 ```py
 from steammanager import SteamPath
