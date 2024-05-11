@@ -1,4 +1,4 @@
-import os, winreg, vdf, json, shutil
+import os, winreg, vdf, shutil, json
 
 def read_reg(ep, p = r"", k = ''):
     try:
@@ -10,27 +10,32 @@ def read_reg(ep, p = r"", k = ''):
     except Exception as e:
         return None
 
-SteamPath = str(read_reg(ep = winreg.HKEY_LOCAL_MACHINE, p = r"SOFTWARE\Wow6432Node\Valve\Steam", k = 'InstallPath'))
-assert SteamPath, "No Steam InstallPath found"
+#read registry
 WinCountry = str(read_reg(ep = winreg.HKEY_CURRENT_USER, p = r"Control Panel\International", k = 'LocaleName'))
-print(f"loaded system language: {WinCountry}")
+SteamPath = str(read_reg(ep = winreg.HKEY_LOCAL_MACHINE, p = r"SOFTWARE\Wow6432Node\Valve\Steam", k = 'InstallPath'))
 
-idpath = os.listdir(SteamPath+r"\config\avatarcache")
-steamid = list(map(lambda sub:int(''.join(filter(str.isnumeric, sub))), idpath))
+#load some data
+UserVDF=(SteamPath+r"\config\loginusers.vdf")
+ACache = os.listdir(SteamPath+r"\config\avatarcache")
+
+#load users steamID
+steamid = list(map(lambda sub:int(''.join(filter(str.isnumeric, sub))), ACache))
 steamID = steamid[0]
-print(f"loaded steamID: {steamID}")
 
-loginusers=(SteamPath+r"\config\loginusers.vdf")
-assert loginusers, "No user found"
-loadvdf=vdf.load(open(loginusers))
-PersonaName=loadvdf["users"][f"{steamID}"]["PersonaName"]
-print(f"loaded personaname from dynamic location: {loginusers}")
+#copy avatar from cache
+Avatardir = SteamPath+rf"\config\avatarcache\{steamID}.png"
+shutil.copy(Avatardir, "data/user")
 
-with open("data/languages/"+WinCountry+".json", encoding="utf8") as lang:
-    glang=json.load(lang)
-print("loaded language")
+#get users nickname
+VDF=vdf.load(open(UserVDF))
+PersonaName = VDF["users"][f"{steamID}"]["PersonaName"]
 
-avatardir=SteamPath+rf"\config\avatarcache\{steamID}.png"
-shutil.copy(avatardir, "path where you want the avatar")
-assert avatardir, "No avatar found"
-print("copied avatar from cache")
+#Language
+#with open("data/languages/"+WinCountry+".json", encoding="utf8") as lang:
+#    glang=json.load(lang)
+
+assert Avatardir, "No avatar found"
+assert SteamPath, "No Steam Installation Path found"
+assert UserVDF, "No user found"
+
+print(f"SteamPath: {SteamPath}\nLang: {WinCountry}\nUserVDF: {UserVDF}\nSteamID: {steamID}\nAvatardir: {Avatardir}")
