@@ -1,21 +1,18 @@
 import os, winreg, vdf, shutil, json
 
-def read_reg(ep, p = r"", k = ''):
-    try:
-        key = winreg.OpenKeyEx(ep, p)
-        value = winreg.QueryValueEx(key,k)
-        if key:
-            winreg.CloseKey(key)
-        return value[0]
-    except Exception as e:
-        return None
+def read_reg(ep,p='',k=''):
+	try:
+		A=winreg.OpenKeyEx(ep,p);B=winreg.QueryValueEx(A,k)
+		if A:winreg.CloseKey(A)
+		return B[0]
+	except Exception as C:return
 
 #read registry
 WinCountry = str(read_reg(ep = winreg.HKEY_CURRENT_USER, p = r"Control Panel\International", k = 'LocaleName'))
 SteamPath = str(read_reg(ep = winreg.HKEY_LOCAL_MACHINE, p = r"SOFTWARE\Wow6432Node\Valve\Steam", k = 'InstallPath'))
 
 #load some data
-UserVDF=(SteamPath+r"\config\loginusers.vdf")
+UserVDF = SteamPath+r"\config\loginusers.vdf"
 ACache = os.listdir(SteamPath+r"\config\avatarcache")
 
 #load users steamID
@@ -31,12 +28,10 @@ VDF=vdf.load(open(UserVDF))
 PersonaName = VDF["users"][f"{steamID}"]["PersonaName"]
 
 #Language
-#with open("data/languages/"+WinCountry+".json", encoding="utf8") as lang:
-#    glang=json.load(lang)
+#with open("data/languages/"+WinCountry+".json", encoding="utf8") as lang: glang=json.load(lang)
 
 assert Avatardir, "No avatar found"
 assert SteamPath, "No Steam Installation Path found"
 assert UserVDF, "No user found"
 
-if __name__ == '__main__':
-    print(f"SteamPath: {SteamPath}\nLang: {WinCountry}\nUserVDF: {UserVDF}\nSteamID: {steamID}\nAvatardir: {Avatardir}")
+if __name__ == '__main__': print(f"SteamPath: {SteamPath}\nLang: {WinCountry}\nUserVDF: {UserVDF}\nSteamID: {steamID}\nAvatardir: {Avatardir}")
