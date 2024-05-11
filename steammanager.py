@@ -38,4 +38,5 @@ assert Avatardir, "No avatar found"
 assert SteamPath, "No Steam Installation Path found"
 assert UserVDF, "No user found"
 
-print(f"SteamPath: {SteamPath}\nLang: {WinCountry}\nUserVDF: {UserVDF}\nSteamID: {steamID}\nAvatardir: {Avatardir}")
+if __name__ == '__main__':
+    print(f"SteamPath: {SteamPath}\nLang: {WinCountry}\nUserVDF: {UserVDF}\nSteamID: {steamID}\nAvatardir: {Avatardir}")
